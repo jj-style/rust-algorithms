@@ -1,12 +1,7 @@
-mod sorting;
-use sorting::bubble_sort;
-use sorting::merge_sort;
+use algorithms::sorting::quicksort;
 
 fn main() {
-    let mut arr: [isize; 5] = [5, 4, 3, 2, 1];
-
-    println!("before: {:?}", arr);
-    bubble_sort(&mut arr);
-    merge_sort(&mut arr);
-    println!("after: {:?}", arr);
+    let unsorted = vec![5,8,1,3,2,8];
+    println!("Before: {:?}", unsorted);
+    println!("After : {:?}", quicksort(unsorted));
 }
