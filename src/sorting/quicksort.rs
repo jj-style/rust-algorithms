@@ -42,14 +42,14 @@ mod tests {
 
     #[test]
     fn test_quicksort_descending() {
-        let mut arr = [7, 6, 5, 4, 3, 2, 1];
+        let arr = [7, 6, 5, 4, 3, 2, 1];
         let sorted_arr = quicksort(Vec::from(arr));
         assert_eq!(sorted_arr, [1, 2, 3, 4, 5, 6, 7]);
     }
 
     #[test]
     fn test_quicksort_ascending() {
-        let mut arr = [1, 2, 3, 4, 5, 6, 7];
+        let arr = [1, 2, 3, 4, 5, 6, 7];
         let sorted_arr = quicksort(Vec::from(arr));
         assert_eq!(sorted_arr, [1, 2, 3, 4, 5, 6, 7]);
     }
