@@ -1,11 +1,13 @@
+use std::cmp::Ordering::{Equal, Greater, Less};
+
 #[derive(Debug)]
-pub struct BTNode<T: PartialOrd + Copy> {
+pub struct BTNode<T: PartialOrd + Ord + Copy> {
     data: T,
     left: Option<Box<BTNode<T>>>,
     right: Option<Box<BTNode<T>>>
 }
 
-impl<T: PartialOrd + Copy> BTNode<T> {
+impl<T: PartialOrd + Ord + Copy> BTNode<T> {
     pub fn new(data: T) -> Self {
         BTNode {
             data,
@@ -36,7 +38,17 @@ impl<T: PartialOrd + Copy> BTNode<T> {
         }
     }
     pub fn search(&self, data: T) -> bool {
-        unimplemented!("todo: implement search()");
+        return match data.cmp(&self.data) {
+            Equal => true,
+            Less => match self.left.as_ref() {
+                Some(n) => n.search(data),
+                None => false
+            },
+            Greater => match self.right.as_ref() {
+                Some(n) => n.search(data),
+                None => false
+            }
+        }
     }
 }
 
