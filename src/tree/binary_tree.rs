@@ -35,6 +35,9 @@ impl<T: PartialOrd + Copy> BTNode<T> {
             }
         }
     }
+    pub fn search(&self, data: T) -> bool {
+        unimplemented!("todo: implement search()");
+    }
 }
 
 #[cfg(test)]
@@ -70,5 +73,23 @@ mod tests {
         assert_eq!(node.right().unwrap().right().is_none(), true);
         assert_eq!(node.right().unwrap().left().is_some(), true);
         assert_eq!(node.right().unwrap().left().unwrap().get_data(), 7);
+    }
+
+    #[test]
+    fn test_bt_search() {
+        let mut node = BTNode::new(5);
+        node.insert_node(10);
+        node.insert_node(3);
+        node.insert_node(7);
+
+        assert_eq!(node.search(5), true);
+        assert_eq!(node.search(10), true);
+        assert_eq!(node.search(3), true);
+        assert_eq!(node.search(7), true);
+
+        assert_eq!(node.search(1), false);
+        assert_eq!(node.search(2), false);
+        assert_eq!(node.search(200), false);
+        assert_eq!(node.search(29), false);
     }
 }
