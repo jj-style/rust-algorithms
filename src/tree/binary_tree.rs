@@ -50,6 +50,9 @@ impl<T: PartialOrd + Ord + Copy> BTNode<T> {
             }
         }
     }
+
+    // TODO: traversal's, in-order, pre-order, post-order
+    // Tree-sort -> fn(Vec<T>) -> build binary tree -> in-order traversal -> sorted!
 }
 
 #[cfg(test)]
