@@ -51,6 +51,24 @@ impl<T: PartialOrd + Ord + Copy> BTNode<T> {
         }
     }
 
+    fn _traverse_in_order(&self, visited: &mut Vec<T>) {
+        match self.left.as_ref() {
+            Some(n) => n._traverse_in_order(visited),
+            None => {}
+        }
+        visited.push(self.data);
+        match self.right.as_ref() {
+            Some(n) => n._traverse_in_order(visited),
+            None => {}
+        }
+    }
+
+    pub fn traverse_in_order(&self) -> Vec<T> {
+        let mut visited: Vec<T> = Vec::new();
+        self._traverse_in_order(&mut visited);
+        visited
+    }
+
     // TODO: traversal's, in-order, pre-order, post-order
     // Tree-sort -> fn(Vec<T>) -> build binary tree -> in-order traversal -> sorted!
 }
@@ -106,5 +124,15 @@ mod tests {
         assert_eq!(node.search(2), false);
         assert_eq!(node.search(200), false);
         assert_eq!(node.search(29), false);
+    }
+
+    #[test]
+    fn test_bt_in_order_traversal() {
+        let mut node = BTNode::new(5);
+        node.insert_node(10);
+        node.insert_node(3);
+        node.insert_node(7);
+        let in_order_data = node.traverse_in_order();
+        assert_eq!(in_order_data, [3, 5, 7, 10]);
     }
 }
