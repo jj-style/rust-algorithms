@@ -165,5 +165,23 @@ mod tests {
         assert_eq!(in_order_data, [3, 5, 7, 10]);
     }
 
-    // TODO: test pre/post order traversal
+    #[test]
+    fn test_bt_pre_order_traversal() {
+        let mut node = BTNode::new(5);
+        node.insert_node(10);
+        node.insert_node(3);
+        node.insert_node(7);
+        let pre_order_data = node.traverse_pre_order();
+        assert_eq!(pre_order_data, [5, 3, 10, 7]);
+    }
+
+    #[test]
+    fn test_bt_post_order_traversal() {
+        let mut node = BTNode::new(5);
+        node.insert_node(10);
+        node.insert_node(3);
+        node.insert_node(7);
+        let post_order_data = node.traverse_post_order();
+        assert_eq!(post_order_data, [3, 7, 10, 5]);
+    }
 }
