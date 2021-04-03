@@ -1,7 +1,7 @@
 use std::cmp::Ordering::{Equal, Greater, Less};
 
 #[derive(Debug)]
-pub struct BTNode<T: PartialOrd + Ord + Copy> {
+pub struct BTNode<T: Ord + Copy> {
     data: T,
     left: Option<Box<BTNode<T>>>,
     right: Option<Box<BTNode<T>>>,
@@ -14,7 +14,7 @@ enum BtTraversalType {
     PostOrder,
 }
 
-impl<T: PartialOrd + Ord + Copy> BTNode<T> {
+impl<T: Ord + Copy> BTNode<T> {
     pub fn new(data: T) -> Self {
         BTNode {
             data,
@@ -99,7 +99,6 @@ impl<T: PartialOrd + Ord + Copy> BTNode<T> {
         self._traverse(&mut visited, BtTraversalType::PostOrder);
         visited
     }
-    // TODO: Tree-sort -> fn(Vec<T>) -> build binary tree -> in-order traversal -> sorted!
 }
 
 #[cfg(test)]
