@@ -4,7 +4,14 @@ use std::cmp::Ordering::{Equal, Greater, Less};
 pub struct BTNode<T: PartialOrd + Ord + Copy> {
     data: T,
     left: Option<Box<BTNode<T>>>,
-    right: Option<Box<BTNode<T>>>
+    right: Option<Box<BTNode<T>>>,
+}
+
+#[derive(Clone, Copy, PartialEq)]
+enum BtTraversalType {
+    PreOrder,
+    InOrder,
+    PostOrder,
 }
 
 impl<T: PartialOrd + Ord + Copy> BTNode<T> {
@@ -12,7 +19,7 @@ impl<T: PartialOrd + Ord + Copy> BTNode<T> {
         BTNode {
             data,
             left: None,
-            right: None
+            right: None,
         }
     }
     pub fn get_data(&self) -> T {
@@ -28,12 +35,12 @@ impl<T: PartialOrd + Ord + Copy> BTNode<T> {
         if data < self.data {
             match self.left.as_mut() {
                 Some(n) => n.insert_node(data),
-                None => self.left = Some(Box::from(BTNode::new(data)))
+                None => self.left = Some(Box::from(BTNode::new(data))),
             }
         } else {
             match self.right.as_mut() {
                 Some(n) => n.insert_node(data),
-                None => self.right = Some(Box::from(BTNode::new(data)))
+                None => self.right = Some(Box::from(BTNode::new(data))),
             }
         }
     }
@@ -42,35 +49,57 @@ impl<T: PartialOrd + Ord + Copy> BTNode<T> {
             Equal => true,
             Less => match self.left.as_ref() {
                 Some(n) => n.search(data),
-                None => false
+                None => false,
             },
             Greater => match self.right.as_ref() {
                 Some(n) => n.search(data),
-                None => false
-            }
-        }
+                None => false,
+            },
+        };
     }
 
-    fn _traverse_in_order(&self, visited: &mut Vec<T>) {
+    fn _traverse(&self, visited: &mut Vec<T>, traverse_type: BtTraversalType) {
+        if traverse_type == BtTraversalType::PreOrder {
+            visited.push(self.data);
+        }
+
         match self.left.as_ref() {
-            Some(n) => n._traverse_in_order(visited),
+            Some(n) => n._traverse(visited, traverse_type),
             None => {}
         }
-        visited.push(self.data);
+
+        if traverse_type == BtTraversalType::InOrder {
+            visited.push(self.data);
+        }
+
         match self.right.as_ref() {
-            Some(n) => n._traverse_in_order(visited),
+            Some(n) => n._traverse(visited, traverse_type),
             None => {}
+        }
+
+        if traverse_type == BtTraversalType::PostOrder {
+            visited.push(self.data);
         }
     }
 
     pub fn traverse_in_order(&self) -> Vec<T> {
         let mut visited: Vec<T> = Vec::new();
-        self._traverse_in_order(&mut visited);
+        self._traverse(&mut visited, BtTraversalType::InOrder);
         visited
     }
 
-    // TODO: traversal's, in-order, pre-order, post-order
-    // Tree-sort -> fn(Vec<T>) -> build binary tree -> in-order traversal -> sorted!
+    pub fn traverse_pre_order(&self) -> Vec<T> {
+        let mut visited: Vec<T> = Vec::new();
+        self._traverse(&mut visited, BtTraversalType::PreOrder);
+        visited
+    }
+
+    pub fn traverse_post_order(&self) -> Vec<T> {
+        let mut visited: Vec<T> = Vec::new();
+        self._traverse(&mut visited, BtTraversalType::PostOrder);
+        visited
+    }
+    // TODO: Tree-sort -> fn(Vec<T>) -> build binary tree -> in-order traversal -> sorted!
 }
 
 #[cfg(test)]
@@ -135,4 +164,6 @@ mod tests {
         let in_order_data = node.traverse_in_order();
         assert_eq!(in_order_data, [3, 5, 7, 10]);
     }
+
+    // TODO: test pre/post order traversal
 }
