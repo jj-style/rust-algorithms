@@ -52,13 +52,15 @@ where
     }
 }
 
-pub fn merge_sort<T>(arr: &mut [T])
+pub fn merge_sort<T>(arr: &[T]) -> Vec<T>
 where
     T: Ord + Copy,
 {
+    let mut copy = arr.to_vec();
     if arr.len() > 1 {
-        _merge_sort(arr, 0, arr.len() - 1);
+        _merge_sort(&mut copy, 0, arr.len() - 1);
     }
+    copy
 }
 
 #[cfg(test)]
@@ -67,22 +69,22 @@ mod tests {
 
     #[test]
     fn test_merge_sort() {
-        let mut arr = [7, 1, 9, 4, 2, 3, 2, 6];
-        merge_sort(&mut arr);
-        assert_eq!(arr, [1, 2, 2, 3, 4, 6, 7, 9]);
+        let arr = [7, 1, 9, 4, 2, 3, 2, 6];
+        let sorted = merge_sort(&arr);
+        assert_eq!(sorted, vec![1, 2, 2, 3, 4, 6, 7, 9]);
     }
 
     #[test]
     fn test_merge_sort_descending() {
-        let mut arr = [7, 6, 5, 4, 3, 2, 1];
-        merge_sort(&mut arr);
-        assert_eq!(arr, [1, 2, 3, 4, 5, 6, 7]);
+        let arr = [7, 6, 5, 4, 3, 2, 1];
+        let sorted = merge_sort(&arr);
+        assert_eq!(sorted, vec![1, 2, 3, 4, 5, 6, 7]);
     }
 
     #[test]
     fn test_merge_sort_ascending() {
-        let mut arr = [1, 2, 3, 4, 5, 6, 7];
-        merge_sort(&mut arr);
-        assert_eq!(arr, [1, 2, 3, 4, 5, 6, 7]);
+        let arr = [1, 2, 3, 4, 5, 6, 7];
+        let sorted = merge_sort(&arr);
+        assert_eq!(sorted, vec![1, 2, 3, 4, 5, 6, 7]);
     }
 }
