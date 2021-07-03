@@ -1,3 +1,3 @@
 mod binary_tree;
 
-pub use binary_tree::BTNode;
+pub use binary_tree::Node;
